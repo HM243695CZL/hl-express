@@ -38,7 +38,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  */
 routerList.map(router => {
   app.use(router);
-})
+});
 app.listen(config.port, () => {
   console.log('服务器已启动,地址： http://localhost:' + config.port);
   console.log('接口文档地址： http://localhost:' + config.port + '/api-docs');
