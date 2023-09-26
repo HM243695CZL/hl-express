@@ -3,6 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import path from 'path';
 import routerList from './router';
+import {config} from './config';
 
 const app = express();
 
@@ -13,8 +14,8 @@ const swaggerOption = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'hl后台管理系统接口文档',
-      version: '1.0.0'
+      title: config.swaggerTitle,
+      version: config.swaggerVersion
     }
   },
   // 指定swagger-jsdoc去哪个路由下收集swagger注释
@@ -38,7 +39,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 routerList.map(router => {
   app.use(router);
 })
-app.listen(3000, () => {
-  console.log('服务器已启动, 请打开 http://localhost:3000 访问');
-  console.log('接口文档地址： http://localhost:3000/api-docs');
+app.listen(config.port, () => {
+  console.log('服务器已启动,地址： http://localhost:' + config.port);
+  console.log('接口文档地址： http://localhost:' + config.port + '/api-docs');
 });
