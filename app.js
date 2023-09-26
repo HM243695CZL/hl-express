@@ -1,6 +1,36 @@
 import express from 'express';
-const app = express();
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import path from 'path';
 import routerList from './router';
+
+const app = express();
+
+/**
+ * swagger配置
+ */
+const swaggerOption = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'hl后台管理系统接口文档',
+      version: '1.0.0'
+    }
+  },
+  // 指定swagger-jsdoc去哪个路由下收集swagger注释
+  apis: [path.join(__dirname, '/router/**/*.js')]
+}
+const swaggerSpec = swaggerJSDoc(swaggerOption);
+
+/**
+ * 开放swagger 相关接口
+ */
+app.get('/swagger.json', (req, res) => {
+res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+// 使用swaggerSpec生成swagger文档页面，并开放在指定路由
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 /**
  * 循环注册路由
@@ -9,5 +39,6 @@ routerList.map(router => {
   app.use(router);
 })
 app.listen(3000, () => {
-  console.log('服务器已启动, 请打开 http://localhost:3000');
+  console.log('服务器已启动, 请打开 http://localhost:3000 访问');
+  console.log('接口文档地址： http://localhost:3000/api-docs');
 });
