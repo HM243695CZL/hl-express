@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import path from 'path';
@@ -6,7 +7,10 @@ import routerList from './router';
 import {config} from './config';
 
 const app = express();
-
+/**
+ * 配置跨域
+ */
+app.use(cors());
 /**
  * swagger配置
  */
@@ -38,6 +42,15 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  */
 routerList.map(router => {
   app.use(router);
+});
+/**
+ * 配置404请求
+ */
+app.use((req, res, next) => {
+  res.json({
+    status: 404,
+    message: req.path + '接口不存在'
+  });
 });
 app.listen(config.port, () => {
   console.log('服务器已启动,地址： http://localhost:' + config.port);
