@@ -3,7 +3,7 @@
  * tags:
  *   - name: 用户管理
  * paths:
- *  /user/page:
+ *  /admin/page:
  *     post:
  *       tags:
  *         - 用户管理
@@ -21,7 +21,7 @@
  *             application/json:
  *               schema:
  *                 $ref: '#/components/schemas/ResponseCommon'
- *  /user/list:
+ *  /admin/list:
  *     get:
  *       tags:
  *         - 用户管理
