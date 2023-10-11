@@ -1,10 +1,10 @@
-import express from 'express';
-import cors from 'cors';
-import swaggerUi from 'swagger-ui-express';
-import swaggerJSDoc from 'swagger-jsdoc';
-import path from 'path';
-import routerList from './router';
-import {config} from './config';
+const express = require('express');
+const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+const path = require('path');
+const routerList = require('./router');
+const { config } = require('./config');
 
 const app = express();
 /**

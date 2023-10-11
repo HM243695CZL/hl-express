@@ -1,4 +1,10 @@
-export const getUserPageList = (req, res, next) => {
+const { sequelizeConfig } = require('../../config/sequelizeConfig');
+const getUserPageList = (req, res, next) => {
+    sequelizeConfig.authenticate().then(() => {
+        console.log('连接成功');
+    }).catch(err => {
+        console.log('连接失败', err);
+    });
     res.json({
         status: 200,
         message: '操作成功',
@@ -6,7 +12,7 @@ export const getUserPageList = (req, res, next) => {
     })
 }
 
-export const login = (req, res, next) => {
+const login = (req, res, next) => {
     res.json({
         "status": 200,
         "message": "操作成功",
@@ -115,10 +121,15 @@ export const login = (req, res, next) => {
         }
     })
 }
-export const getUserList = (req, res, next) => {
+const getUserList = (req, res, next) => {
     res.json({
         status: 200,
         message: '操作成功',
         data: []
     })
+}
+module.exports = {
+    getUserPageList,
+    login,
+    getUserList
 }

@@ -1,7 +1,7 @@
-import userRouter from './system/admin';
-import roleRouter from './system/role';
+const userRouter = require('./system/admin');
+const roleRouter = require('./system/role');
 
-export default [
+module.exports = [
     userRouter,
     roleRouter
 ]
