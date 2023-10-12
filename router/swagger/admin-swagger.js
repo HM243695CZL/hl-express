@@ -21,6 +21,18 @@
  *             application/json:
  *               schema:
  *                 $ref: '#/components/schemas/ResponseCommon'
+ *  /admin/admin/create:
+ *     post:
+ *       tags:
+ *         - 用户管理
+ *       summary: 创建用户   #接口备注
+ *       description: 创建用户   #接口备注
+ *       operationId: createUser
+ *       requestBody:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Admin'
  *  /admin/admin/list:
  *     get:
  *       tags:

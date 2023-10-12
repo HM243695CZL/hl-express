@@ -3,6 +3,7 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const path = require('path');
+const bodyParser = require('body-parser');
 const routerList = require('./router');
 const { config } = require('./config');
 
@@ -37,6 +38,12 @@ res.setHeader('Content-Type', 'application/json');
 // 使用swaggerSpec生成swagger文档页面，并开放在指定路由
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.use(bodyParser.urlencoded({
+  extended: false,
+}));
+app.use(bodyParser.json({
+  limit: '10mb'
+}));
 /**
  * 循环注册路由
  */

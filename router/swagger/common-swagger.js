@@ -5,11 +5,11 @@
  *   PageCommon:
  *       type: object
  *       properties:
- *         first:
+ *         pageIndex:
  *           type: integer
  *           format: int64
  *           example: 1
- *         rows:
+ *         pageSize:
  *           type: integer
  *           format: int64
  *           example: 10
