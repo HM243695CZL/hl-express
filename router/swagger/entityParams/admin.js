@@ -9,5 +9,5 @@
  *      type: string
  *      format: string
  *      description: 用户名称
- *      example: admin
+ *      example: ''
  */

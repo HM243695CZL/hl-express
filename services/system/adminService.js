@@ -1,4 +1,3 @@
-const {sequelizeConfig} = require('../../config/sequelizeConfig');
 const AdminModel = require('../../model/admin/admin');
 const {successPageResult, successResult, errorResult, config} = require('../../config');
 const getUserPageList = async (req, res, next) => {
