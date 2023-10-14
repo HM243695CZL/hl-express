@@ -3,6 +3,24 @@
  * tags:
  *   - name: 用户管理
  * paths:
+ *  /admin/admin/login:
+ *     post:
+ *       tags:
+ *         - 用户管理
+ *       summary: 登录   #接口备注
+ *       description: 登录   #接口备注
+ *       operationId: login
+ *       requestBody:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Login'
+ *       responses:
+ *         '200':
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/ResponseCommon'
  *  /admin/admin/page:
  *     post:
  *       tags:
@@ -33,6 +51,12 @@
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Admin'
+ *       responses:
+ *         '200':
+ *             content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/ResponseCommon'
  *  /admin/admin/list:
  *     get:
  *       tags:

@@ -9,10 +9,12 @@
  *           type: integer
  *           format: int64
  *           example: 1
+ *           required: true
  *         pageSize:
  *           type: integer
  *           format: int64
  *           example: 10
+ *           required: true
  *   ResponseCommon:
  *    type: object
  *    properties:
