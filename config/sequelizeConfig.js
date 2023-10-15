@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
 const {createLogInfo} = require('./logConfig');
+const { config} = require('./index');
 
-const sequelizeConfig = new Sequelize('hl-tiny', 'root', 'root', {
-    host: 'localhost',
-    port: 3306,
+const sequelizeConfig = new Sequelize(config.databaseName, config.dbUser, config.dbPassword, {
+    host: config.dbHost,
+    port: config.dbPort,
     dialect: 'mysql', // 数据库类型，这里是mysql
     pool: {
         max: 20, // 最大连接数
@@ -21,6 +22,10 @@ const sequelizeConfig = new Sequelize('hl-tiny', 'root', 'root', {
     logging: sql => createLogInfo(sql), // 打印日志
 });
 
+const initModels = require('../model/init-models');
+const models = initModels(sequelizeConfig);
+
 module.exports = {
-    sequelizeConfig
+    sequelizeConfig,
+    models
 }
