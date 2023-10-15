@@ -57,6 +57,27 @@
  *                  application/json:
  *                      schema:
  *                          $ref: '#/components/schemas/ResponseCommon'
+ *  /admin/admin/view/{id}:
+ *    get:
+ *      tags:
+ *        - 用户管理
+ *      summary: 获取用户详情
+ *      description: 获取用户详情
+ *      operationId: userView
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          description: 用户id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *            format: int64
+ *      responses:
+ *        '200':
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ResponseCommon'
  *  /admin/admin/list:
  *     get:
  *       tags:

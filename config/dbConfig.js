@@ -1,4 +1,4 @@
-const {successPageResult, successResult, errorResult} = require('./index');
+const {successPageResult, successResult, errorResult, commonMessage} = require('./index');
 const dayjs = require('dayjs');
 const { createLogInfo } = require('./logConfig');
 /**
@@ -9,11 +9,11 @@ const { createLogInfo } = require('./logConfig');
  */
 const page = ({req, res, model}) => {
     const {pageIndex, pageSize} = req.body;
-    model.findAll({
+    model.findAndCountAll({
         limit: pageSize,
         offset: (pageIndex - 1) * pageSize
     }).then(async result => {
-        const resData = successPageResult(result, await model.count());
+        const resData = successPageResult(result);
         let logStr = `
 ===========分页查询===========
 地址：${req.url}
@@ -87,8 +87,46 @@ const create = ({req, res, model, createField}) => {
             res.json(errData);
         });
 }
+
+/**
+ * 查看数据
+ * @param req 请求
+ * @param res 响应
+ * @param model 模型
+ */
+const view = ({req, res, model}) => {
+    model.findByPk(req.params.id).then(result => {
+        let resData = successResult(result);
+        let logStr = '';
+        if (result === null) {
+            resData = errorResult(commonMessage.notExist);
+            logStr = `
+===========查看数据-失败========
+地址：${req.url}
+请求方式：${req.method}
+时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
+请求参数：${JSON.stringify(req.params)}
+响应数据：${JSON.stringify(resData)}
+=============================
+        `;
+        } else {
+            logStr = `
+===========查看数据===========
+地址：${req.url}
+请求方式：${req.method}
+时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
+请求参数：${JSON.stringify(req.params)}
+响应数据：${JSON.stringify(resData)}
+=============================
+        `;
+        }
+        createLogInfo(logStr);
+        res.json(resData);
+    });
+}
 module.exports = {
     page,
     list,
-    create
+    create,
+    view
 }

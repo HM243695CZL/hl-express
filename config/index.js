@@ -5,19 +5,24 @@ const config = {
     swaggerVersion: '1.0.0', // swagger文档版本
     initPassword: '123456'
 }
+const commonMessage = {
+    success: '操作成功',
+    error: '操作失败',
+    notExist: '数据不存在',
+}
 /**
  * 返回分页数据
  * @param list 分页数据
  * @param total 总数
  * @returns {{data: {total, list}, message: string, status: number}}
  */
-const successPageResult = (list, total) => {
+const successPageResult = ({rows, count}) => {
     return {
         status: 200,
         message: '操作成功',
         data: {
-            list,
-            total
+            list: rows,
+            total: count
         }
     }
 };
@@ -39,5 +44,6 @@ module.exports = {
     config,
     successPageResult,
     successResult,
-    errorResult
+    errorResult,
+    commonMessage
 };
