@@ -5,6 +5,11 @@
  *   Admin:
  *    type: object
  *    properties:
+ *     id:
+ *      type: string
+ *      format: string
+ *      description: 用户id
+ *      example: ''
  *     username:
  *      type: string
  *      format: string

@@ -1,6 +1,6 @@
 const express = require('express');
 const { models } = require('../../config/sequelizeConfig');
-const {page, list, create, view} = require('../../config/dbConfig');
+const {page, list, create, update, view} = require('../../config/dbConfig');
 const {login } = require('../../services/system/adminService');
 const {config} = require('../../config');
 
@@ -24,6 +24,18 @@ userRouter.post(`${basePath}create`,
             sex: req.body.sex
         }
     }));
+userRouter.post(`${basePath}update`,
+    (req, res) => update({
+    req,
+    res,
+    model: models.ums_admin,
+    updateField: {
+        id: req.body.id,
+        username: req.body.username,
+        avatar: req.body.avatar,
+        sex: req.body.sex
+    }
+}));
 userRouter.get(`${basePath}view/:id`,
     (req, res) => view({req, res, model: models.ums_admin}));
 module.exports = userRouter;

@@ -57,6 +57,24 @@
  *                  application/json:
  *                      schema:
  *                          $ref: '#/components/schemas/ResponseCommon'
+ *  /admin/admin/update:
+ *    post:
+ *     tags:
+ *      - 用户管理
+ *     summary: 更新用户
+ *     description: 更新用户
+ *     operationId: updateUser
+ *     requestBody:
+ *      content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Admin'
+ *     responses:
+ *       '200':
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ResponseCommon'
  *  /admin/admin/view/{id}:
  *    get:
  *      tags:
