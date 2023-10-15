@@ -130,12 +130,8 @@ const login = (req, res, next) => {
         }
     });
 };
-const getUserList = (req, res, next) => {
-    res.json({
-        status: 200,
-        message: '操作成功',
-        data: []
-    });
+const getUserList = async (req, res, next) => {
+    res.json(successResult(await AdminModel.findAll()));
 };
 module.exports = {
     createUser,
