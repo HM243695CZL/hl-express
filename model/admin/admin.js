@@ -65,6 +65,7 @@ const AdminModel = sequelizeConfig.define('ums_admin', {
         type: DataTypes.INTEGER,
         allowNull: true,
         comment: '逻辑删除 1(true)已删除， 0(false)未删除',
+        defaultValue: 0,
     }
 });
 module.exports = AdminModel;

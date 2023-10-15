@@ -9,6 +9,7 @@ const commonMessage = {
     success: '操作成功',
     error: '操作失败',
     notExist: '数据不存在',
+    createSuccess: '创建成功',
 }
 /**
  * 返回分页数据

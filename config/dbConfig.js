@@ -60,7 +60,7 @@ const list = ({req, res, model}) => {
  */
 const create = ({req, res, model, createField}) => {
     model.create(createField).then(() => {
-        let resData = successResult(null, '创建成功');
+        let resData = successResult(null, commonMessage.createSuccess);
         let logStr = `
 ===========创建数据===========
 地址：${req.url}
