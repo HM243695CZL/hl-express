@@ -21,10 +21,10 @@ const successPageResult = (list, total) => {
         }
     }
 };
-const successResult = (data) => {
+const successResult = (data, message = '操作成功') => {
     return {
         status: 200,
-        message: '操作成功',
+        message,
         data
     }
 }

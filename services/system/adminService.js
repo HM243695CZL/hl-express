@@ -1,26 +1,3 @@
-const AdminModel = require('../../model/admin/admin');
-const {successPageResult, successResult, errorResult, config} = require('../../config');
-const getUserPageList = async (req, res, next) => {
-    const {pageIndex, pageSize} = req.body;
-    await AdminModel.findAll({
-        limit: pageSize,
-        offset: (pageIndex - 1) * pageSize
-    }).then(async result => res.json(successPageResult(result, await AdminModel.count())));
-};
-const createUser = (req, res, next) => {
-    const {avatar, sex, username} = req.body;
-    AdminModel.create({
-        avatar,
-        sex,
-        username,
-        password: config.initPassword
-    }).then(() => {
-        res.json(successResult(null));
-    }).catch(err => {
-        res.json(errorResult(err.errors[0].message));
-    });
-};
-
 const login = (req, res, next) => {
     res.json({
         'status': 200,
@@ -130,12 +107,6 @@ const login = (req, res, next) => {
         }
     });
 };
-const getUserList = async (req, res, next) => {
-    res.json(successResult(await AdminModel.findAll()));
-};
 module.exports = {
-    createUser,
-    getUserPageList,
     login,
-    getUserList
 };

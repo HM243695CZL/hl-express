@@ -1,12 +1,28 @@
 const express = require('express');
-const { createUser, getUserList, getUserPageList, login } = require('../../services/system/adminService');
+const AdminModel = require('../../model/admin/admin');
+const {page, create, list} = require('../../config/dbConfig');
+const {login } = require('../../services/system/adminService');
+const {config} = require('../../config');
 
 const userRouter = express.Router();
 const basePath = '/admin/admin/';
 
 userRouter.post(`${basePath}login`, login);
-userRouter.post(`${basePath}page`, getUserPageList);
-userRouter.post(`${basePath}create`, createUser);
-userRouter.get(`${basePath}list`, getUserList);
+userRouter.post(`${basePath}page`,
+    (req, res) => page({req, res, model: AdminModel}));
+userRouter.post(`${basePath}create`,
+    (req, res) => create({
+        req,
+        res,
+        model: AdminModel,
+        createField: {
+            username: req.body.username,
+            password: config.initPassword,
+            avatar: req.body.avatar,
+            sex: req.body.sex
+        }
+    }));
+userRouter.get(`${basePath}list`,
+    (req, res) => list({req, res, model: AdminModel}));
 
 module.exports = userRouter;

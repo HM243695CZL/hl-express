@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const {createLogInfo} = require('./logConfig');
 
 const sequelizeConfig = new Sequelize('hl-tiny', 'root', 'root', {
     host: 'localhost',
@@ -13,7 +14,8 @@ const sequelizeConfig = new Sequelize('hl-tiny', 'root', 'root', {
         timestamps: false, // 不自动添加时间戳
         freezeTableName: true, // 表名不自动为复数
         charset: 'utf8', // 设置字符集
-    }
+    },
+    logging: sql => createLogInfo(sql), // 打印日志
 });
 
 module.exports = {
