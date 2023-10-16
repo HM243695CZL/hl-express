@@ -95,39 +95,38 @@ const create = ({req, res, model, createField}) => {
  * @param model 模型
  * @param updateField 更新字段
  */
-const update = ({req, res, model, updateField}) => {
-    model.update(updateField, {
+const update = async ({req, res, model, updateField}) => {
+    const result = await model.update(updateField, {
         where: {
             id: updateField.id
         }
-    }).then(async result => {
-        let logStr = `
+    });
+    let logStr = `
 ===========更新数据========
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
 请求参数：${JSON.stringify(req.body)}`;
-        let resData = successResult(null, commonMessage.updateSuccess);
-        if (result[0] === 0) {
-            resData = errorResult(commonMessage.notExist);
-            createLogInfo(logStr + `
+    let resData = successResult(null, commonMessage.updateSuccess);
+    if (result[0] === 0) {
+        resData = errorResult(commonMessage.notExist);
+        createLogInfo(logStr + `
 响应数据：${JSON.stringify(resData)}
 =============================
         `);
-            res.json(resData);
-            return;
-        }
-        const getOne = await model.findByPk(updateField.id);
-        if (getOne === null) {
-            resData = errorResult(commonMessage.notExist);
-        }
-        logStr += `
+        res.json(resData);
+        return;
+    }
+    const getOne = await model.findByPk(updateField.id);
+    if (getOne === null) {
+        resData = errorResult(commonMessage.notExist);
+    }
+    logStr += `
 响应数据：${JSON.stringify(resData)}
 =============================
         `;
-        createLogInfo(logStr);
-        res.json(resData);
-    });
+    createLogInfo(logStr);
+    res.json(resData);
 }
 
 /**
@@ -136,13 +135,13 @@ const update = ({req, res, model, updateField}) => {
  * @param res 响应
  * @param model 模型
  */
-const view = ({req, res, model}) => {
-    model.findByPk(req.params.id).then(result => {
-        let resData = successResult(result);
-        let logStr = '';
-        if (result === null) {
-            resData = errorResult(commonMessage.notExist);
-            logStr = `
+const view = async ({req, res, model}) => {
+    const result = await model.findByPk(req.params.id);
+    let resData = successResult(result);
+    let logStr = '';
+    if (result === null) {
+        resData = errorResult(commonMessage.notExist);
+        logStr = `
 ===========查看数据-失败========
 地址：${req.url}
 请求方式：${req.method}
@@ -151,8 +150,8 @@ const view = ({req, res, model}) => {
 响应数据：${JSON.stringify(resData)}
 =============================
         `;
-        } else {
-            logStr = `
+    } else {
+        logStr = `
 ===========查看数据===========
 地址：${req.url}
 请求方式：${req.method}
@@ -161,10 +160,9 @@ const view = ({req, res, model}) => {
 响应数据：${JSON.stringify(resData)}
 =============================
         `;
-        }
-        createLogInfo(logStr);
-        res.json(resData);
-    });
+    }
+    createLogInfo(logStr);
+    res.json(resData);
 }
 
 /**
@@ -173,13 +171,13 @@ const view = ({req, res, model}) => {
  * @param res 响应
  * @param model 模型
  */
-const remove = ({req, res, model}) => {
-    model.findByPk(req.params.id).then(result => {
-        let resData = successResult(null, commonMessage.deleteSuccess);
-        let logStr = '';
-        if (result === null) {
-            resData = errorResult(commonMessage.notExist);
-            logStr = `
+const remove = async ({req, res, model}) => {
+    const result = await model.findByPk(req.params.id);
+    let resData = successResult(null, commonMessage.deleteSuccess);
+    let logStr = '';
+    if (result === null) {
+        resData = errorResult(commonMessage.notExist);
+        logStr = `
 ===========删除数据-失败========
 地址：${req.url}
 请求方式：${req.method}
@@ -188,13 +186,13 @@ const remove = ({req, res, model}) => {
 响应数据：${JSON.stringify(resData)}
 =============================
             `;
-        } else {
-            model.destroy({
-                where: {
-                    id: req.params.id
-                }
-            }).then(() => {
-                logStr = `
+    } else {
+        model.destroy({
+            where: {
+                id: req.params.id
+            }
+        }).then(() => {
+            logStr = `
 ===========删除数据========
 地址：${req.url}
 请求方式：${req.method}
@@ -203,11 +201,10 @@ const remove = ({req, res, model}) => {
 响应数据：${JSON.stringify(resData)}
 =============================
             `;
-            });
-        }
-        createLogInfo(logStr);
-        res.json(resData);
-    });
+        });
+    }
+    createLogInfo(logStr);
+    res.json(resData);
 }
 module.exports = {
     page,
