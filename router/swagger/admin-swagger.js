@@ -130,4 +130,22 @@
  *             application/json:
  *               schema:
  *                 $ref: '#/components/schemas/ResponseCommon'
+ *  /admin/admin/updatePass:
+ *    post:
+ *      tags:
+ *        - 用户管理
+ *      summary: 更新用户密码
+ *      description: 更新用户密码
+ *      operationId: updatePass
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UpdatePass'
+ *      responses:
+ *        '200':
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ResponseCommon'
  */

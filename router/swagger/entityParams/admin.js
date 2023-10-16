@@ -49,3 +49,25 @@
  *       example: ''
  *       required: true
  */
+
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *   UpdatePass:
+ *     type: object
+ *     properties:
+ *       id:
+ *        type: string
+ *        format: string
+ *        description: 用户id
+ *        example: ''
+ *        required: true
+ *       password:
+ *        type: string
+ *        format: string
+ *        description: 用户密码
+ *        example: ''
+ *        required: true
+ */
