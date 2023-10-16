@@ -6,8 +6,9 @@ const { createLogInfo } = require('./logConfig');
  * @param req 请求
  * @param res 响应
  * @param model 模型
+ * @param modelName 模型名称
  */
-const page = ({req, res, model}) => {
+const page = ({req, res, model, modelName}) => {
     const {pageIndex, pageSize} = req.body;
     model.findAndCountAll({
         limit: pageSize,
@@ -15,7 +16,7 @@ const page = ({req, res, model}) => {
     }).then(async result => {
         const resData = successPageResult(result);
         let logStr = `
-===========分页查询===========
+===========分页查询-${modelName}===========
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')} 
@@ -33,12 +34,13 @@ const page = ({req, res, model}) => {
  * @param req 请求
  * @param res 响应
  * @param model 模型
+ * @param modelName 模型名称
  */
-const list = ({req, res, model}) => {
+const list = ({req, res, model, modelName}) => {
     model.findAll().then(result => {
         let resData = successResult(result);
         let logStr = `
-===========获取全部数据===========
+===========获取全部数据-${modelName}===========
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
@@ -57,12 +59,13 @@ const list = ({req, res, model}) => {
  * @param res 响应
  * @param model 模型
  * @param createField 创建字段
+ * @param modelName 模型名称
  */
-const create = ({req, res, model, createField}) => {
+const create = ({req, res, model, createField, modelName}) => {
     model.create(createField).then(() => {
         let resData = successResult(null, commonMessage.createSuccess);
         let logStr = `
-===========创建数据===========
+===========创建数据-${modelName}===========
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')} 
@@ -75,7 +78,7 @@ const create = ({req, res, model, createField}) => {
     }).catch(err => {
         let errData = errorResult(err.errors[0].message);
         let logStr = `
-===========创建数据-失败========
+===========创建数据-失败-${modelName}========
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')} 
@@ -94,15 +97,16 @@ const create = ({req, res, model, createField}) => {
  * @param res 响应
  * @param model 模型
  * @param updateField 更新字段
+ * @param modelName 模型名称
  */
-const update = async ({req, res, model, updateField}) => {
+const update = async ({req, res, model, updateField, modelName}) => {
     const result = await model.update(updateField, {
         where: {
             id: updateField.id
         }
     });
     let logStr = `
-===========更新数据========
+===========更新数据-${modelName}========
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
@@ -134,15 +138,16 @@ const update = async ({req, res, model, updateField}) => {
  * @param req 请求
  * @param res 响应
  * @param model 模型
+ * @param modelName 模型名称
  */
-const view = async ({req, res, model}) => {
+const view = async ({req, res, model, modelName}) => {
     const result = await model.findByPk(req.params.id);
     let resData = successResult(result);
     let logStr = '';
     if (result === null) {
         resData = errorResult(commonMessage.notExist);
         logStr = `
-===========查看数据-失败========
+===========查看数据-失败-${modelName}========
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
@@ -152,7 +157,7 @@ const view = async ({req, res, model}) => {
         `;
     } else {
         logStr = `
-===========查看数据===========
+===========查看数据-${modelName}===========
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
@@ -170,15 +175,16 @@ const view = async ({req, res, model}) => {
  * @param req 请求
  * @param res 响应
  * @param model 模型
+ * @param modelName 模型名称
  */
-const remove = async ({req, res, model}) => {
+const remove = async ({req, res, model, modelName}) => {
     const result = await model.findByPk(req.params.id);
     let resData = successResult(null, commonMessage.deleteSuccess);
     let logStr = '';
     if (result === null) {
         resData = errorResult(commonMessage.notExist);
         logStr = `
-===========删除数据-失败========
+===========删除数据-失败-${modelName}========
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
@@ -193,7 +199,7 @@ const remove = async ({req, res, model}) => {
             }
         }).then(() => {
             logStr = `
-===========删除数据========
+===========删除数据-${modelName}========
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}

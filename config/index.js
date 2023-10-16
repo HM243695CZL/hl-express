@@ -8,7 +8,7 @@ const config = {
     dbPort: 3306,
     dbUser: 'root',
     dbPassword: 'root',
-    salt: 10, // 密码加密盐
+    salt: 10, // 加密盐
 }
 const commonMessage = {
     success: '操作成功',

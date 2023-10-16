@@ -7,12 +7,13 @@ const {config} = require('../../config');
 
 const userRouter = express.Router();
 const basePath = '/admin/admin/';
+const modelName = '用户';
 
 userRouter.post(`${basePath}login`, login);
 userRouter.post(`${basePath}page`,
-    (req, res) => page({req, res, model: models.ums_admin}));
+    (req, res) => page({req, res, model: models.ums_admin, modelName}));
 userRouter.get(`${basePath}list`,
-    (req, res) => list({req, res, model: models.ums_admin}));
+    (req, res) => list({req, res, model: models.ums_admin, modelName}));
 userRouter.post(`${basePath}create`,
     (req, res) => {
         bcrypt.hash(config.initPassword, config.salt, (err, password) => {
@@ -25,7 +26,8 @@ userRouter.post(`${basePath}create`,
                     password,
                     avatar: req.body.avatar,
                     sex: req.body.sex
-                }
+                },
+                modelName
             });
         });
     });
@@ -39,12 +41,13 @@ userRouter.post(`${basePath}update`,
             username: req.body.username,
             avatar: req.body.avatar,
             sex: req.body.sex
-        }
+        },
+        modelName
     }));
 userRouter.get(`${basePath}view/:id`,
-    (req, res) => view({req, res, model: models.ums_admin}));
+    (req, res) => view({req, res, model: models.ums_admin, modelName}));
 userRouter.get(`${basePath}delete/:id`,
-    (req, res) => remove({req, res, model: models.ums_admin}));
+    (req, res) => remove({req, res, model: models.ums_admin, modelName}));
 userRouter.post(`${basePath}updatePass`,
     (req, res) => {
         bcrypt.hash(req.body.password, config.salt, (err, password) => {
@@ -55,7 +58,8 @@ userRouter.post(`${basePath}updatePass`,
                 updateField: {
                     id: req.body.id,
                     password
-                }
+                },
+                modelName
             });
         });
     });
