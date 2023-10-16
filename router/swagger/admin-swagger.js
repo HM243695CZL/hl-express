@@ -96,6 +96,27 @@
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/ResponseCommon'
+ *  /admin/admin/delete/{id}:
+ *    get:
+ *      tags:
+ *        - 用户管理
+ *      summary: 删除用户
+ *      description: 删除用户
+ *      operationId: userDelete
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          description: 用户id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *            format: int64
+ *      responses:
+ *        '200':
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ResponseCommon'
  *  /admin/admin/list:
  *     get:
  *       tags:

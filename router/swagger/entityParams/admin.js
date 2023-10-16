@@ -14,6 +14,7 @@
  *      type: string
  *      format: string
  *      description: 用户名称
+ *      required: true
  *      example: ''
  *     avatar:
  *      type: string

@@ -1,6 +1,6 @@
 const express = require('express');
 const { models } = require('../../config/sequelizeConfig');
-const {page, list, create, update, view} = require('../../config/dbConfig');
+const {page, list, create, update, view, remove} = require('../../config/dbConfig');
 const {login } = require('../../services/system/adminService');
 const {config} = require('../../config');
 
@@ -38,4 +38,6 @@ userRouter.post(`${basePath}update`,
 }));
 userRouter.get(`${basePath}view/:id`,
     (req, res) => view({req, res, model: models.ums_admin}));
+userRouter.get(`${basePath}delete/:id`,
+    (req, res) => remove({req, res, model: models.ums_admin}));
 module.exports = userRouter;

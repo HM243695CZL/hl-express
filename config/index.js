@@ -15,6 +15,7 @@ const commonMessage = {
     notExist: '数据不存在',
     createSuccess: '创建成功',
     updateSuccess: '更新成功',
+    deleteSuccess: '删除成功',
 }
 /**
  * 返回分页数据

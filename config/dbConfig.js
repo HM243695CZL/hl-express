@@ -166,10 +166,54 @@ const view = ({req, res, model}) => {
         res.json(resData);
     });
 }
+
+/**
+ * 删除数据
+ * @param req 请求
+ * @param res 响应
+ * @param model 模型
+ */
+const remove = ({req, res, model}) => {
+    model.findByPk(req.params.id).then(result => {
+        let resData = successResult(null, commonMessage.deleteSuccess);
+        let logStr = '';
+        if (result === null) {
+            resData = errorResult(commonMessage.notExist);
+            logStr = `
+===========删除数据-失败========
+地址：${req.url}
+请求方式：${req.method}
+时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
+请求参数：${JSON.stringify(req.params)}
+响应数据：${JSON.stringify(resData)}
+=============================
+            `;
+        } else {
+            model.destroy({
+                where: {
+                    id: req.params.id
+                }
+            }).then(() => {
+                logStr = `
+===========删除数据========
+地址：${req.url}
+请求方式：${req.method}
+时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
+请求参数：${JSON.stringify(req.params)}
+响应数据：${JSON.stringify(resData)}
+=============================
+            `;
+            });
+        }
+        createLogInfo(logStr);
+        res.json(resData);
+    });
+}
 module.exports = {
     page,
     list,
     create,
     update,
-    view
+    view,
+    remove
 }
