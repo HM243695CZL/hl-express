@@ -1,8 +1,15 @@
 const {successResult} = require('../../config');
-const list = async ({ res, model}) => {
-    const menuList = await model.findAll();
-    res.json(successResult(menuList));
+const {toTreeData} = require('../../utils');
+const list = ({ res, model}) => {
+    model.findAll().then(result => {
+        const data = toTreeData(JSON.parse(JSON.stringify(result)));
+        res.json(successResult(data));
+    })
+};
+const remove = ({req, res, model}) => {
+
 }
 module.exports = {
-    list
+    list,
+    remove
 }

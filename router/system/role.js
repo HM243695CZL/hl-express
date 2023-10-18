@@ -4,7 +4,6 @@ const { page , list, create, update, view, remove} = require('../../config/dbCon
 
 const roleRouter = express.Router();
 const basePath = '/admin/role/';
-const modelName = '角色管理';
 
 roleRouter.post(`${basePath}page`,
     (req, res) => page({req, res, model: models.ums_role}));
