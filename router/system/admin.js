@@ -7,18 +7,16 @@ const {config} = require('../../config');
 
 const userRouter = express.Router();
 const basePath = '/admin/admin/';
-const modelName = '用户管理';
 
 userRouter.post(`${basePath}login`, login);
 userRouter.post(`${basePath}page`,
-    (req, res) => page({req, res, model: models.ums_admin, modelName}));
+    (req, res) => page({req, res, model: models.ums_admin}));
 userRouter.get(`${basePath}list`,
-    (req, res) => list({req, res, model: models.ums_admin, modelName}));
+    (req, res) => list({res, model: models.ums_admin}));
 userRouter.post(`${basePath}create`,
     (req, res) => {
         bcrypt.hash(config.initPassword, config.salt, (err, password) => {
             create({
-                req,
                 res,
                 model: models.ums_admin,
                 createField: {
@@ -27,13 +25,11 @@ userRouter.post(`${basePath}create`,
                     avatar: req.body.avatar,
                     sex: req.body.sex
                 },
-                modelName
             });
         });
     });
 userRouter.post(`${basePath}update`,
     (req, res) => update({
-        req,
         res,
         model: models.ums_admin,
         updateField: {
@@ -42,24 +38,21 @@ userRouter.post(`${basePath}update`,
             avatar: req.body.avatar,
             sex: req.body.sex
         },
-        modelName
     }));
 userRouter.get(`${basePath}view/:id`,
-    (req, res) => view({req, res, model: models.ums_admin, modelName}));
+    (req, res) => view({req, res, model: models.ums_admin}));
 userRouter.get(`${basePath}delete/:id`,
-    (req, res) => remove({req, res, model: models.ums_admin, modelName}));
+    (req, res) => remove({req, res, model: models.ums_admin}));
 userRouter.post(`${basePath}updatePass`,
     (req, res) => {
         bcrypt.hash(req.body.password, config.salt, (err, password) => {
             update({
-                req,
                 res,
                 model: models.ums_admin,
                 updateField: {
                     id: req.body.id,
                     password
                 },
-                modelName
             });
         });
     });

@@ -19,10 +19,11 @@ const reqResMiddleware = (req, res, next) => {
             }
             let body = Buffer.concat(chunks).toString('utf8');
             let logStr = `
+
 地址：${req.url}
 请求方式：${req.method}
 时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
-请求参数：${JSON.stringify(req.params)}
+请求参数：${req.method === 'POST' ? JSON.stringify(req.body) : JSON.stringify(req.params)}
 响应数据：${JSON.stringify(body)}
 ========================
         `;

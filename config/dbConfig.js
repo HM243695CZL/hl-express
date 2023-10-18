@@ -4,9 +4,8 @@ const {successPageResult, successResult, errorResult, commonMessage} = require('
  * @param req 请求
  * @param res 响应
  * @param model 模型
- * @param modelName 模型名称
  */
-const page = ({req, res, model, modelName}) => {
+const page = ({req, res, model}) => {
     const {pageIndex, pageSize} = req.body;
     model.findAndCountAll({
         limit: pageSize,
@@ -20,11 +19,9 @@ const page = ({req, res, model, modelName}) => {
 /**
  * 获取全部数据
  * @param req 请求
- * @param res 响应
  * @param model 模型
- * @param modelName 模型名称
  */
-const list = ({req, res, model, modelName}) => {
+const list = ({res, model}) => {
     model.findAll().then(result => {
         let resData = successResult(result);
         res.json(resData);
@@ -33,13 +30,11 @@ const list = ({req, res, model, modelName}) => {
 
 /**
  * 创建数据
- * @param req 请求
  * @param res 响应
  * @param model 模型
  * @param createField 创建字段
- * @param modelName 模型名称
  */
-const create = ({req, res, model, createField, modelName}) => {
+const create = ({res, model, createField}) => {
     model.create(createField).then(() => {
         let resData = successResult(null, commonMessage.createSuccess);
         res.json(resData);
@@ -51,13 +46,11 @@ const create = ({req, res, model, createField, modelName}) => {
 
 /**
  * 更新数据
- * @param req 请求
  * @param res 响应
  * @param model 模型
  * @param updateField 更新字段
- * @param modelName 模型名称
  */
-const update = async ({req, res, model, updateField, modelName}) => {
+const update = async ({res, model, updateField}) => {
     const result = await model.update(updateField, {
         where: {
             id: updateField.id
@@ -81,9 +74,8 @@ const update = async ({req, res, model, updateField, modelName}) => {
  * @param req 请求
  * @param res 响应
  * @param model 模型
- * @param modelName 模型名称
  */
-const view = async ({req, res, model, modelName}) => {
+const view = async ({req, res, model}) => {
     const result = await model.findByPk(req.params.id);
     let resData = successResult(result);
     if (result === null) {
@@ -97,9 +89,8 @@ const view = async ({req, res, model, modelName}) => {
  * @param req 请求
  * @param res 响应
  * @param model 模型
- * @param modelName 模型名称
  */
-const remove = async ({req, res, model, modelName}) => {
+const remove = async ({req, res, model}) => {
     const result = await model.findByPk(req.params.id);
     let resData = successResult(null, commonMessage.deleteSuccess);
     if (result === null) {

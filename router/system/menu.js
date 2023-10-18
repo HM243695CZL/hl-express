@@ -8,6 +8,6 @@ const basePath = '/admin/menu/';
 const modelName = '菜单管理';
 
 menuRouter.get(`${basePath}list`,
-    (req, res) => list({req, res, model: models.ums_menu, modelName}));
+    (req, res) => list({res, model: models.ums_menu}));
 
 module.exports = menuRouter;
