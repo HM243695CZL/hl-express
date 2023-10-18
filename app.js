@@ -4,6 +4,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const path = require('path');
 const bodyParser = require('body-parser');
+const reqResMiddleware = require('./middleware/reqResMiddleware');
 const routerList = require('./router');
 const { config } = require('./config');
 
@@ -44,6 +45,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json({
   limit: '10mb'
 }));
+/**
+ * 全局请求响应中间件
+ */
+app.use(reqResMiddleware);
 /**
  * 循环注册路由
  */

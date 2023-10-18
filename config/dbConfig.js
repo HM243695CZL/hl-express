@@ -1,6 +1,4 @@
 const {successPageResult, successResult, errorResult, commonMessage} = require('./index');
-const dayjs = require('dayjs');
-const { createLogInfo } = require('./logConfig');
 /**
  * 分页查询
  * @param req 请求
@@ -15,16 +13,6 @@ const page = ({req, res, model, modelName}) => {
         offset: (pageIndex - 1) * pageSize
     }).then(async result => {
         const resData = successPageResult(result);
-        let logStr = `
-===========分页查询-${modelName}===========
-地址：${req.url}
-请求方式：${req.method}
-时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')} 
-请求参数：${JSON.stringify(req.body)}
-响应数据：${JSON.stringify(resData)}
-=============================
-        `;
-        createLogInfo(logStr);
         res.json(resData);
     });
 };
@@ -39,16 +27,6 @@ const page = ({req, res, model, modelName}) => {
 const list = ({req, res, model, modelName}) => {
     model.findAll().then(result => {
         let resData = successResult(result);
-        let logStr = `
-===========获取全部数据-${modelName}===========
-地址：${req.url}
-请求方式：${req.method}
-时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
-请求参数：${JSON.stringify(req.params)}
-响应数据：${JSON.stringify(resData)}
-=============================
-        `;
-        createLogInfo(logStr);
         res.json(resData);
     });
 }
@@ -64,29 +42,9 @@ const list = ({req, res, model, modelName}) => {
 const create = ({req, res, model, createField, modelName}) => {
     model.create(createField).then(() => {
         let resData = successResult(null, commonMessage.createSuccess);
-        let logStr = `
-===========创建数据-${modelName}===========
-地址：${req.url}
-请求方式：${req.method}
-时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')} 
-请求参数：${JSON.stringify(req.body)}
-响应数据：${JSON.stringify(resData)}
-=============================
-        `;
-        createLogInfo(logStr);
         res.json(resData);
     }).catch(err => {
         let errData = errorResult(err.errors[0].message);
-        let logStr = `
-===========创建数据-失败-${modelName}========
-地址：${req.url}
-请求方式：${req.method}
-时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')} 
-请求参数：${JSON.stringify(req.body)}
-响应数据：${JSON.stringify(errData)}
-=============================
-        `;
-            createLogInfo(logStr);
             res.json(errData);
         });
 }
@@ -105,19 +63,9 @@ const update = async ({req, res, model, updateField, modelName}) => {
             id: updateField.id
         }
     });
-    let logStr = `
-===========更新数据-${modelName}========
-地址：${req.url}
-请求方式：${req.method}
-时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
-请求参数：${JSON.stringify(req.body)}`;
     let resData = successResult(null, commonMessage.updateSuccess);
     if (result[0] === 0) {
         resData = errorResult(commonMessage.notExist);
-        createLogInfo(logStr + `
-响应数据：${JSON.stringify(resData)}
-=============================
-        `);
         res.json(resData);
         return;
     }
@@ -125,11 +73,6 @@ const update = async ({req, res, model, updateField, modelName}) => {
     if (getOne === null) {
         resData = errorResult(commonMessage.notExist);
     }
-    logStr += `
-响应数据：${JSON.stringify(resData)}
-=============================
-        `;
-    createLogInfo(logStr);
     res.json(resData);
 }
 
@@ -143,30 +86,9 @@ const update = async ({req, res, model, updateField, modelName}) => {
 const view = async ({req, res, model, modelName}) => {
     const result = await model.findByPk(req.params.id);
     let resData = successResult(result);
-    let logStr = '';
     if (result === null) {
         resData = errorResult(commonMessage.notExist);
-        logStr = `
-===========查看数据-失败-${modelName}========
-地址：${req.url}
-请求方式：${req.method}
-时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
-请求参数：${JSON.stringify(req.params)}
-响应数据：${JSON.stringify(resData)}
-=============================
-        `;
-    } else {
-        logStr = `
-===========查看数据-${modelName}===========
-地址：${req.url}
-请求方式：${req.method}
-时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
-请求参数：${JSON.stringify(req.params)}
-响应数据：${JSON.stringify(resData)}
-=============================
-        `;
     }
-    createLogInfo(logStr);
     res.json(resData);
 }
 
@@ -180,36 +102,15 @@ const view = async ({req, res, model, modelName}) => {
 const remove = async ({req, res, model, modelName}) => {
     const result = await model.findByPk(req.params.id);
     let resData = successResult(null, commonMessage.deleteSuccess);
-    let logStr = '';
     if (result === null) {
         resData = errorResult(commonMessage.notExist);
-        logStr = `
-===========删除数据-失败-${modelName}========
-地址：${req.url}
-请求方式：${req.method}
-时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
-请求参数：${JSON.stringify(req.params)}
-响应数据：${JSON.stringify(resData)}
-=============================
-            `;
     } else {
         model.destroy({
             where: {
                 id: req.params.id
             }
-        }).then(() => {
-            logStr = `
-===========删除数据-${modelName}========
-地址：${req.url}
-请求方式：${req.method}
-时间：${dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')}
-请求参数：${JSON.stringify(req.params)}
-响应数据：${JSON.stringify(resData)}
-=============================
-            `;
         });
     }
-    createLogInfo(logStr);
     res.json(resData);
 }
 module.exports = {

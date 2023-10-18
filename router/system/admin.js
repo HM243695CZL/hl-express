@@ -7,7 +7,7 @@ const {config} = require('../../config');
 
 const userRouter = express.Router();
 const basePath = '/admin/admin/';
-const modelName = '用户';
+const modelName = '用户管理';
 
 userRouter.post(`${basePath}login`, login);
 userRouter.post(`${basePath}page`,
