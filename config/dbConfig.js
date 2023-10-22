@@ -1,4 +1,5 @@
 const {successPageResult, successResult, errorResult, commonMessage} = require('./index');
+const {emptyToNull} = require('../utils');
 /**
  * 分页查询
  * @param req 请求
@@ -33,15 +34,20 @@ const list = ({res, model}) => {
  * @param res 响应
  * @param model 模型
  * @param createField 创建字段
+ * @param next 下一步
  */
-const create = ({res, model, createField}) => {
-    model.create(createField).then(() => {
+const create = async ({res, model, createField}) => {
+    delete createField.id;
+    for (const o in createField) {
+        createField[o] = emptyToNull(createField[o])
+    }
+    try {
+        await model.create(createField);
         let resData = successResult(null, commonMessage.createSuccess);
         res.json(resData);
-    }).catch(err => {
-        let errData = errorResult(err.errors[0].message);
-            res.json(errData);
-        });
+    } catch (err) {
+        res.json(errorResult(err.message));
+    }
 }
 
 /**
@@ -51,22 +57,29 @@ const create = ({res, model, createField}) => {
  * @param updateField 更新字段
  */
 const update = async ({res, model, updateField}) => {
-    const result = await model.update(updateField, {
-        where: {
-            id: updateField.id
+    for (const o in updateField) {
+        updateField[o] = emptyToNull(updateField[o])
+    }
+    try {
+        const result = await model.update(updateField, {
+            where: {
+                id: updateField.id
+            }
+        });
+        let resData = successResult(null, commonMessage.updateSuccess);
+        if (result[0] === 0) {
+            resData = errorResult(commonMessage.notExist);
+            res.json(resData);
+            return;
         }
-    });
-    let resData = successResult(null, commonMessage.updateSuccess);
-    if (result[0] === 0) {
-        resData = errorResult(commonMessage.notExist);
+        const getOne = await model.findByPk(updateField.id);
+        if (getOne === null) {
+            resData = errorResult(commonMessage.notExist);
+        }
         res.json(resData);
-        return;
+    } catch (err) {
+        res.json(errorResult(err.message));
     }
-    const getOne = await model.findByPk(updateField.id);
-    if (getOne === null) {
-        resData = errorResult(commonMessage.notExist);
-    }
-    res.json(resData);
 }
 
 /**
@@ -91,18 +104,20 @@ const view = async ({req, res, model}) => {
  * @param model 模型
  */
 const remove = async ({req, res, model}) => {
-    const result = await model.findByPk(req.params.id);
-    let resData = successResult(null, commonMessage.deleteSuccess);
-    if (result === null) {
-        resData = errorResult(commonMessage.notExist);
-    } else {
+    try {
+        const result = await model.findByPk(req.params.id);
+        if (result.length) {
+            throw new Error(commonMessage.notExist);
+        }
         model.destroy({
             where: {
                 id: req.params.id
             }
         });
+        res.json(successResult(null, commonMessage.deleteSuccess));
+    } catch (err) {
+        res.json(errorResult(err.message));
     }
-    res.json(resData);
 }
 module.exports = {
     page,

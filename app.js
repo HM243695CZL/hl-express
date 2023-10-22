@@ -5,6 +5,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const path = require('path');
 const bodyParser = require('body-parser');
 const reqResMiddleware = require('./middleware/reqResMiddleware');
+const errorMiddleware = require('./middleware/errorMiddleware');
 const routerList = require('./router');
 const { config } = require('./config');
 
@@ -64,6 +65,7 @@ app.use((req, res, next) => {
     message: req.path + '接口不存在'
   });
 });
+app.use(errorMiddleware());
 app.listen(config.port, () => {
   console.log('服务器已启动,地址： http://localhost:' + config.port);
   console.log('接口文档地址： http://localhost:' + config.port + '/api-docs');

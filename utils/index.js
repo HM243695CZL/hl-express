@@ -17,6 +17,17 @@ const toTreeData = (data) => {
   });
   return roots;
 }
+
+/**
+ * 将空字符串转为null
+ */
+const emptyToNull = (data) => {
+    if (data === '') {
+        return null;
+    }
+    return data;
+}
 module.exports = {
-    toTreeData
+    toTreeData,
+    emptyToNull
 }

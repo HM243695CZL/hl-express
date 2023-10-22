@@ -9,7 +9,7 @@ const basePath = '/admin/menu/';
 menuRouter.get(`${basePath}list`,
     (req, res) => list({res, model: models.ums_menu}));
 menuRouter.post(`${basePath}create`,
-    (req, res) => create({
+    (req, res, next) => create({
         res,
         model: models.ums_menu,
         createField: req.body
