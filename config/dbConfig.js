@@ -61,22 +61,16 @@ const update = async ({res, model, updateField}) => {
         updateField[o] = emptyToNull(updateField[o])
     }
     try {
-        const result = await model.update(updateField, {
+        const getOne = await model.findByPk(updateField.id);
+        if (getOne === null) {
+            throw new Error(commonMessage.notExist)
+        }
+        await model.update(updateField, {
             where: {
                 id: updateField.id
             }
         });
-        let resData = successResult(null, commonMessage.updateSuccess);
-        if (result[0] === 0) {
-            resData = errorResult(commonMessage.notExist);
-            res.json(resData);
-            return;
-        }
-        const getOne = await model.findByPk(updateField.id);
-        if (getOne === null) {
-            resData = errorResult(commonMessage.notExist);
-        }
-        res.json(resData);
+        res.json(successResult(null, commonMessage.updateSuccess));
     } catch (err) {
         res.json(errorResult(err.message));
     }
