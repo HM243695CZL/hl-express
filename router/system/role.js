@@ -1,6 +1,7 @@
 const express = require('express');
 const {models} = require('../../config/sequelizeConfig');
-const { page , list, create, update, view, remove} = require('../../config/dbConfig');
+const { page , list, create, update, view} = require('../../config/dbConfig');
+const { viewAuth, auth, remove } = require('../../services/system/roleService');
 
 const roleRouter = express.Router();
 const basePath = '/admin/role/';
@@ -33,5 +34,9 @@ roleRouter.post(`${basePath}update`,
 roleRouter.get(`${basePath}view/:id`,
     (req, res) => view({req, res, model: models.ums_role}));
 roleRouter.get(`${basePath}delete/:id`,
-    (req, res) => remove({req, res, model: models.ums_role}));
+    (req, res) => remove({req, res}));
+roleRouter.get(`${basePath}viewAuth/:id`,
+    (req, res) => viewAuth({req, res}));
+roleRouter.post(`${basePath}auth`,
+    (req, res) => auth({req, res}));
 module.exports = roleRouter;

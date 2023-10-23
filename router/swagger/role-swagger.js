@@ -112,4 +112,44 @@
  *             application/json:
  *               schema:
  *                 $ref: '#/components/schemas/ResponseCommon'
+ *   /admin/role/viewAuth/{id}:
+ *     get:
+ *       tags:
+ *         - 角色管理
+ *       summary: 获取角色权限   #接口备注
+ *       description: 获取角色权限   #接口备注
+ *       operationId: viewRoleAuth
+ *       parameters:
+ *         - name: id
+ *           in: path
+ *           description: 角色id
+ *           required: true
+ *           schema:
+ *             type: string
+ *             format: string
+ *       responses:
+ *         '200':
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/ResponseCommon'
+ *
+ *   /admin/role/auth:
+ *     post:
+ *       tags:
+ *         - 角色管理
+ *       summary: 角色授权   #接口备注
+ *       description: 角色授权   #接口备注
+ *       operationId: roleAuth
+ *       requestBody:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/RoleAuth'
+ *       responses:
+ *         '200':
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/ResponseCommon'
  */

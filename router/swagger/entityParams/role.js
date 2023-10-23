@@ -29,3 +29,27 @@
  *         description: 角色描述
  *         example: ''
  */
+
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     RoleAuth:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: string
+ *           description: 角色id
+ *           example: ''
+ *           required: true
+ *         menuIds:
+ *           type: array
+ *           items:
+ *             type: string
+ *             format: string
+ *             description: 菜单id
+ *             example: ''
+ *             required: true
+ */

@@ -21,8 +21,8 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'ums_role_menu_relation',
     timestamps: true,
-    createdAt: 'add_time',
-    updatedAt: 'update_time',
+    createdAt: false,
+    updatedAt: false,
     indexes: [
       {
         name: "PRIMARY",
