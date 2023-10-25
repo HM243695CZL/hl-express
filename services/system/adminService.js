@@ -1,3 +1,6 @@
+const { models } = require('../../config/sequelizeConfig');
+const {successResult} = require('../../config');
+
 const login = (req, res, next) => {
     res.json({
         'status': 200,
@@ -107,6 +110,17 @@ const login = (req, res, next) => {
         }
     });
 };
+const userModal = models.ums_admin;
+const userRoleModal = models.ums_admin_role_relation;
+const getUserAuth = async ({req, res}) => {
+    const result = await userRoleModal.findAll({
+        where: {
+            admin_id: req.params.id
+        }
+    });
+    res.json(successResult(result.map(item => item.role_id)));
+}
 module.exports = {
     login,
+    getUserAuth
 };

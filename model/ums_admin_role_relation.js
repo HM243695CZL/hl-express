@@ -19,8 +19,8 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'ums_admin_role_relation',
     timestamps: true,
-    createdAt: 'add_time',
-    updatedAt: 'update_time',
+    createdAt: false,
+    updatedAt: false,
     indexes: [
       {
         name: "PRIMARY",
