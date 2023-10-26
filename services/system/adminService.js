@@ -1,5 +1,5 @@
 const { models } = require('../../config/sequelizeConfig');
-const {successResult} = require('../../config');
+const {successResult, errorResult} = require('../../config');
 
 const login = (req, res, next) => {
     res.json({
@@ -119,8 +119,28 @@ const getUserAuth = async ({req, res}) => {
         }
     });
     res.json(successResult(result.map(item => item.role_id)));
+};
+const authRole = async ({req, res}) => {
+    try {
+        // 先删除原有的角色
+        const result = await userRoleModal.destroy({
+            where: {
+                admin_id: req.body.id
+            }
+        });
+        // 再添加新的角色
+        await userRoleModal.bulkCreate(req.body.roles.map(roleId => ({
+            admin_id: req.body.id,
+            role_id: roleId
+        })));
+        res.json(successResult(result));
+    } catch (err) {
+        res.json(errorResult(err.message));
+    }
+
 }
 module.exports = {
     login,
-    getUserAuth
+    getUserAuth,
+    authRole
 };

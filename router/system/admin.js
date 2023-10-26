@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const {models} = require('../../config/sequelizeConfig');
 const {page, list, create, update, view, remove} = require('../../config/dbConfig');
-const {login, getUserAuth} = require('../../services/system/adminService');
+const {login, getUserAuth, authRole} = require('../../services/system/adminService');
 const {config} = require('../../config');
 
 const userRouter = express.Router();
@@ -58,4 +58,6 @@ userRouter.post(`${basePath}updatePass`,
     });
 userRouter.get(`${basePath}getUserAuth/:id`,
     (req, res) => getUserAuth({req, res}));
+userRouter.post(`${basePath}authRole`,
+    (req, res) => authRole({req, res}));
 module.exports = userRouter;
