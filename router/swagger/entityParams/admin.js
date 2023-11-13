@@ -71,3 +71,27 @@
  *        example: ''
  *        required: true
  */
+
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *   AuthRole:
+ *     type: object
+ *     properties:
+ *       id:
+ *        type: string
+ *        format: string
+ *        description: 用户id
+ *        example: ''
+ *        required: true
+ *       roles:
+ *        type: array
+ *         items:
+ *          type: string
+ *          format: string
+ *          description: 角色id
+ *          example: ''
+ *          required: true
+ */

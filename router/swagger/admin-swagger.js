@@ -148,4 +148,43 @@
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/ResponseCommon'
+ *  /admin/admin/getUserAuth/{id}:
+ *    get:
+ *      tags:
+ *        - 用户管理
+ *      summary: 获取用户权限
+ *      description: 获取用户权限
+ *      operationId: getUserAuth
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          description: 用户id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *            format: int64
+ *      responses:
+ *        '200':
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ResponseCommon'
+ *  /admin/admin/authRole:
+ *    post:
+ *      tags:
+ *        - 用户管理
+ *      summary: 授权角色
+ *      description: 授权角色
+ *      operationId: authRole
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/AuthRole'
+ *      responses:
+ *        '200':
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ResponseCommon'
  */
